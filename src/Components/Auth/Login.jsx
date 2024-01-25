@@ -12,7 +12,7 @@ const Login = () => {
     emailerr: "",
     passworderr: "",
   });
-  const [isLoading, setisLoading] = useState(falses);
+  const [isLoading, setisLoading] = useState(false);
   const [borderError, setborderError] = useState(false);
 
   const handlechange = (e) => {
