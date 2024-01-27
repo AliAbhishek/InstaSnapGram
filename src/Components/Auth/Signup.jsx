@@ -5,10 +5,20 @@ import axios from "axios";
 import { postUserDetails } from "../../utils/api/LoginAndSignup";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useMutation, useQuery } from "react-query";
+
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { app } from "../../Firebase";
+
+
+const auth = getAuth(app)
 
 const Signup = () => {
   const navigate = useNavigate();
+ 
+  
   const [userRegisterData, setuserRegisterData] = useState({
+   
     name: "",
     email: "",
     username: "",
@@ -23,14 +33,29 @@ const Signup = () => {
   });
 
   const handlechange = (e) => {
-    setuserRegisterData((old) => ({ ...old, [e.target.name]: e.target.value }));
-    setError((old) => ({ ...old, [`${e.target.name}err`]: "" }));
+    setuserRegisterData((old) => ({...old, [e.target.name]: e.target.value }));
+    setError((old) => ({...old, [`${e.target.name}err`]: "" }));
   };
 
   const handlesubmit = (e) => {
     e.preventDefault();
     validation();
   };
+
+  const signupUser=()=>{
+    createUserWithEmailAndPassword(auth,userRegisterData.email,userRegisterData.password).then((res)=>toast.success("User Registered Successfully")).catch((err)=>toast.error("Server not responding"))
+
+  }
+
+  // const postuserdata = useMutation(postUserDetails,{
+  //   onSuccess: ()=>{
+  //     toast.success("User Registered Successfully")
+  //   },
+  //   onError:()=>{
+  //     toast.error("Something went wrong")
+  //   }
+    
+  // })
 
   const validation = () => {
     let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
@@ -99,14 +124,18 @@ const Signup = () => {
       //        password:userRegisterData.password})
       //        .then(res=>console.log(res))
 
-      postUserDetails(userRegisterData)
-        .then((res) => {
-          console.log(res, "res");
-          toast.success("success");
-        })
-        .catch((err) => toast.error("Something went wrong"));
+      // postUserDetails(userRegisterData)
+      //   .then((res) => {
+      //     console.log(res, "res");
+      //     toast.success("success");
+      //   })
+      //   .catch((err) => toast.error("Something went wrong"));
 
+      // postuserdata.mutate(userRegisterData)
+      signupUser()
+     
       setuserRegisterData({ name: "", email: "", username: "", password: "" });
+      
     }
   };
 

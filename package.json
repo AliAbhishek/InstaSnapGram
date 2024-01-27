@@ -10,12 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.17.19",
     "appwrite": "^13.0.1",
     "axios": "^1.6.5",
+    "firebase": "^10.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.21.3",
-    "react-toastify": "^10.0.4"
+    "react-toastify": "^10.0.4",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import logo from "../../assets/Images/google-hangouts.png";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getUserDetails } from "../../utils/api/LoginAndSignup";
+import {
+  signInWithEmailAndPassword,
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { app } from "../../Firebase";
+import { ToastContainer, toast } from "react-toastify";
 
+const auth = getAuth();
+const googleProvider = new GoogleAuthProvider();
 const Login = () => {
   const navigate = useNavigate();
   const [userData, setuserData] = useState({
@@ -24,6 +36,22 @@ const Login = () => {
     e.preventDefault();
     validation();
   };
+
+  const signinUser = () => {
+    signInWithEmailAndPassword(auth, userData.email, userData.password)
+      .then((res) =>{ toast.success("Welcome to your app")
+                     navigate("/content")})
+      .catch((err) => toast.error("Server not responding"));
+  };
+
+  const signinWithGoogle = async (e) => {
+   
+   await signInWithPopup(auth, googleProvider)
+    navigate("/content")
+
+    
+
+  }
 
   const validation = () => {
     let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
@@ -54,6 +82,8 @@ const Login = () => {
     }
     if (isvalid) {
       console.log(userData);
+      // if(userData.email===data.)
+      signinUser();
       setuserData({
         email: "",
         password: "",
@@ -63,6 +93,7 @@ const Login = () => {
 
   return (
     <div>
+      <ToastContainer />
       <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
           <div className="flex justify-center items-center gap-2 ">
@@ -158,7 +189,22 @@ const Login = () => {
                 )}
               </button>
             </div>
+
+           
           </form>
+          <div  className="mt-5">
+              <button onClick={signinWithGoogle} class="flex w-full justify-center rounded-md bg-yellow-300 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Sign in with
+                <div className="flex text-md ">
+                  <p className="ml-1 text-blue-500"> G</p>
+                  <p className="text-red-500">o</p>
+                  <p className="text-orange-500"> o</p>
+                  <p className="text-blue-500">g</p>
+                  <p className="text-green-500"> l</p>
+                  <p className="text-red-500">e</p>
+                </div>
+              </button>
+            </div>
 
           <p class="mt-10 text-center text-sm text-white">
             Don't have an account?
