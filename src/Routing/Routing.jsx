@@ -2,9 +2,15 @@ import React from 'react'
 import {Routes,Route} from "react-router"
 import Login from '../Components/Auth/Login'
 import LoginPageOutlet from '../Components/Auth/LoginPageOutlet'
-import LoginImages from '../Components/Auth/LoginImages'
+
 import Signup from '../Components/Auth/Signup'
-import Content from '../Pages/Content'
+
+import HomeOutlet from '../Pages/HomeOutlet'
+import HomeFeed from '../Pages/HomeFeed'
+import Explore from '../Pages/Explore'
+import People from '../Pages/People'
+import Saved from '../Pages/Saved'
+import Create from '../Pages/Create'
 
 const Routing = () => {
   return (
@@ -15,7 +21,13 @@ const Routing = () => {
                 <Route path='/' element={<Login/>}/>
                 <Route path='/signup' element={<Signup/>} />
             </Route>
-            <Route path='/content' element={<Content/>}/>
+            <Route path='/content' element={<HomeOutlet/>}>
+              <Route path='/content/home' element={<HomeFeed/>}/>
+              <Route path='/content/explore' element={<Explore/>}/>
+              <Route path='/content/people' element={<People/>}/>
+              <Route path='/content/saved' element={<Saved/>}/>
+              <Route path='/content/create' element={<Create/>}/>
+            </Route>
         </Routes>
     </div>
   )
